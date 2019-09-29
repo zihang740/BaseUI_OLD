@@ -7,6 +7,7 @@ import com.hzh.frame.R;
 import com.hzh.frame.comn.callback.HttpCallBack;
 import com.hzh.frame.comn.model.BaseHttpCache;
 import com.hzh.frame.comn.model.BaseHttpRequest;
+import com.hzh.frame.core.BaseSP;
 import com.hzh.frame.core.HttpFrame.api.ApiRequest;
 import com.hzh.frame.core.HttpFrame.config.BaseHttpConfig;
 import com.hzh.frame.util.Util;
@@ -212,7 +213,7 @@ public class BaseHttp {
                 params=new JSONObject();
                 params.put("random", Math.random());
             }
-            params.put("datetoken", Util.getNewTime("yyyy-MM-dd HH:mm:ss"));
+            params.put("token", BaseSP.getInstance().getString("token"));
             String encodeParams=URLEncoder.encode(params.toString(), "UTF-8");
             body.add("data", encodeParams);
             body.add("key", Util.createHttpKey(encodeParams));
