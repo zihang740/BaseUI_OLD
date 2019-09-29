@@ -46,14 +46,11 @@ public abstract class AbsRecyclerViewUI<T extends Model> extends BaseUI implemen
     /**
      * 加载模式 <br />
      * 0:1.先加载本地数据;
-     * 2.再加载网络数据 <br />
+     *   2.再加载网络数据 <br />
      * 1:1.只加载本地数据 <br />
      * 2:1.只加载网络数据 <br />
      * 3:1.先下载网络数据到本地;
-     * 2.再加载本地数据 <br />
-     * 4:1.先加载本地数据;
-     * 2.再下载网络数据到本地;
-     * 3.再加载本地数据  <br />
+     *   2.再加载本地数据 <br />
      */
     private int loadPattern = 0;
     /**
@@ -81,13 +78,13 @@ public abstract class AbsRecyclerViewUI<T extends Model> extends BaseUI implemen
         //显示背景图片
         mRecyclerViewBg = (LinearLayout) findViewById(R.id.recyclerViewBg);
         mRecyclerViewBg.setVisibility(View.VISIBLE);
-        bindView();
         if(setHeadLayoutId() != 0) {
             mAdapter.setHeaderView(inflater.inflate(setHeadLayoutId(),mRecyclerView,false));
         }
         if(setFooterLayoutId() != 0){
             mAdapter.setFooterView(inflater.inflate(setFooterLayoutId(),mRecyclerView,false));
         }
+        bindView();
         loadData();
     }
 
@@ -114,9 +111,8 @@ public abstract class AbsRecyclerViewUI<T extends Model> extends BaseUI implemen
             case 3://1.先下载网络数据到本地;2.再加载本地数据
                 loadNetworkData(pageInfo[1], pageInfo[2]);
                 break;
-            case 4://1.先加载本地数据;2.再下载网络数据到本地;3.再加载本地数据
-                loadLocalData();
-                loadNetworkData(pageInfo[1], pageInfo[2]);
+            case 4://加载其他数据源数据
+                loadOtherData(pageInfo[1], pageInfo[2]);
                 break;
         }
     }
@@ -141,6 +137,9 @@ public abstract class AbsRecyclerViewUI<T extends Model> extends BaseUI implemen
         }
     }
 
+    // 加载其他数据源数据 | 提供重写
+    public void loadOtherData(int page, int limit) {}
+
     // 加载网络数据
     public void loadNetworkData(int page, int limit) {
         JSONObject params = setHttpParams();
@@ -164,96 +163,110 @@ public abstract class AbsRecyclerViewUI<T extends Model> extends BaseUI implemen
 
         @Override
         public void onSuccess(JSONObject response) {
-            //只要有请求回来就关闭加载中状态
-            if (null != mAdapter.getFooterView()) {
-                ((XListViewFooter) mAdapter.getFooterView()).setState(XListViewFooter.STATE_NORMAL);
-            }
-            httpState = true;
-            List<T> mDatas = handleHttpData(response);
-            if (httpState) {
-                //请求正常前端UI开始更新
-                if (mDatas != null && mDatas.size() > 0) {
-                    //接口返回正常
-                    if (updLocalData) {
-                        //放本地数据库缓存
-                        From from = new Delete().from(modelClass);
-                        from = setDeleteSqlParams(from);
-                        from.execute();
-                        for (T model : mDatas) {
-                            model.save();
-                        }
-                    }
-                    if (pageInfo[0] == pageInfo[1]) {
-                        //下拉刷新
-                        if (loadPattern == 3 || loadPattern == 4) {
-                            loadLocalData();
-                        } else {
-                            mAdapter.setDatas(mDatas);
-                        }
-                        if (mDatas.size() >= limit) {
-                            mAdapter.setFooterView(createFooterView());
-                        }
-                    } else {
-                        //加载更多
-                        if (mDatas.size() < limit) {
-                            mAdapter.removeFooterView();
-                        }
-                        mAdapter.getDatas().addAll(mDatas);
-                    }
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    //去除背景图片
-                    mRecyclerViewBg.setVisibility(View.GONE);
-                } else {
-                    //接口返回无数据或错误
-                    mSwipeRefreshLayout.setRefreshing(false);
-                    if (pageInfo[0] == pageInfo[1]) {
-                        //下拉刷新
-                        From from = new Delete().from(modelClass);
-                        from = setDeleteSqlParams(from);
-                        from.execute();
-                        if (mDatas == null) {
-                            mDatas = new ArrayList<T>();
-                        }
-                        if (loadPattern == 3 || loadPattern == 4) {
-                            loadLocalData();
-                        } else {
-                            mAdapter.setDatas(mDatas);
-                        }
-                        //显示背景图片
-                        mRecyclerViewBg.setVisibility(View.VISIBLE);
-                    } else {
-                        //加载更多
-                        mAdapter.removeFooterView();
-                    }
-                }
-            } else {
-                //请求异常前端UI不做任何响应
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (pageInfo[0] != pageInfo[1]) {
-                    //加载更多  恢复到之前页码
-                    pageInfo[1] = pageInfo[1] - 1;
-                }
-            }
-            if (mAdapter != null && mAdapter.getFooterView() != null) {
-                mAdapter.getFooterView().setClickable(true);
-            }
+            handleHttpSuccessJson(response,page,limit);
         }
 
         @Override
         public void onFail() {
-            handleHttpDataFailure();
-            //只要有请求回来就关闭加载中状态
-            if (null != mAdapter.getFooterView()) {
-                ((XListViewFooter) mAdapter.getFooterView()).setState(XListViewFooter.STATE_NORMAL);
+            handleHttpFailJson();
+        }
+    }
+
+    //处理请求返回成功的json
+    public void handleHttpSuccessJson(JSONObject response,int page, int limit){
+        handleHttpSuccessJson(handleHttpData(response),page,limit);
+    }
+
+    //处理请求返回成功的json
+    public void handleHttpSuccessJson(List<T> mDatas,int page, int limit){
+        //只要有请求回来就关闭加载中状态
+        if (null != mAdapter.getFooterView()) {
+            ((XListViewFooter) mAdapter.getFooterView()).setState(XListViewFooter.STATE_NORMAL);
+        }
+        httpState = true;
+        if (httpState) {
+            //请求正常前端UI开始更新
+            if (mDatas != null && mDatas.size() > 0) {
+                //接口返回正常
+                if (updLocalData) {
+                    //放本地数据库缓存
+                    From from = new Delete().from(modelClass);
+                    from = setDeleteSqlParams(from);
+                    from.execute();
+                    for (T model : mDatas) {
+                        model.save();
+                    }
+                }
+                if (pageInfo[0] == pageInfo[1]) {
+                    //下拉刷新
+                    if (loadPattern == 3) {
+                        loadLocalData();
+                    } else {
+                        mAdapter.setDatas(mDatas);
+                    }
+                    if (mDatas.size() >= limit) {
+                        mAdapter.setFooterView(createFooterView());
+                    }
+                } else {
+                    //加载更多
+                    if (mDatas.size() < limit) {
+                        mAdapter.removeFooterView();
+                    }
+                    mAdapter.getDatas().addAll(mDatas);
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+                //去除背景图片
+                mRecyclerViewBg.setVisibility(View.GONE);
+            } else {
+                //接口返回无数据或错误
+                mSwipeRefreshLayout.setRefreshing(false);
+                if (pageInfo[0] == pageInfo[1]) {
+                    //下拉刷新
+                    From from = new Delete().from(modelClass);
+                    from = setDeleteSqlParams(from);
+                    from.execute();
+                    if (mDatas == null) {
+                        mDatas = new ArrayList<T>();
+                    }
+                    if (loadPattern == 3) {
+                        loadLocalData();
+                    } else {
+                        mAdapter.setDatas(mDatas);
+                    }
+                    //显示背景图片
+                    mRecyclerViewBg.setVisibility(View.VISIBLE);
+                } else {
+                    //加载更多
+                    mAdapter.removeFooterView();
+                }
             }
+        } else {
+            //请求异常前端UI不做任何响应
             mSwipeRefreshLayout.setRefreshing(false);
-            //加载更多  恢复到之前页码
             if (pageInfo[0] != pageInfo[1]) {
+                //加载更多  恢复到之前页码
                 pageInfo[1] = pageInfo[1] - 1;
             }
-            if (mAdapter != null && mAdapter.getFooterView() != null) {
-                mAdapter.getFooterView().setClickable(true);
-            }
+        }
+        if (mAdapter != null && mAdapter.getFooterView() != null) {
+            mAdapter.getFooterView().setClickable(true);
+        }
+    }
+
+    //处理请求返回失败的json
+    public void handleHttpFailJson(){
+        handleHttpDataFailure();
+        //只要有请求回来就关闭加载中状态
+        if (null != mAdapter.getFooterView()) {
+            ((XListViewFooter) mAdapter.getFooterView()).setState(XListViewFooter.STATE_NORMAL);
+        }
+        mSwipeRefreshLayout.setRefreshing(false);
+        //加载更多  恢复到之前页码
+        if (pageInfo[0] != pageInfo[1]) {
+            pageInfo[1] = pageInfo[1] - 1;
+        }
+        if (mAdapter != null && mAdapter.getFooterView() != null) {
+            mAdapter.getFooterView().setClickable(true);
         }
     }
 
@@ -504,8 +517,6 @@ public abstract class AbsRecyclerViewUI<T extends Model> extends BaseUI implemen
                 break;
             case 3:
                 break;
-            case 4:
-                break;
         }
     }
 
@@ -525,14 +536,11 @@ public abstract class AbsRecyclerViewUI<T extends Model> extends BaseUI implemen
     /**
      * 加载模式 <br />
      * 0:1.先加载本地数据;
-     * 2.再加载网络数据 <br />
+     *   2.再加载网络数据 <br />
      * 1:1.只加载本地数据 <br />
      * 2:1.只加载网络数据 <br />
      * 3:1.先下载网络数据到本地;
-     * 2.再加载本地数据 <br />
-     * 4:1.先加载本地数据;
-     * 2.再下载网络数据到本地;
-     * 3.再加载本地数据  <br />
+     *   2.再加载本地数据 <br />
      */
     protected void setLoadPattern(int loadPattern) {
         this.loadPattern = loadPattern;
