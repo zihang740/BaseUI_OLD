@@ -1,6 +1,8 @@
 //根据isModule标签动态的切换 集成/组件模式
 if (isModule){
     apply plugin: 'com.android.library'
+    apply plugin: 'com.github.dcendents.android-maven'
+    group='com.github.zihang740'// group='com.github.你的github用户名'
 }else{
     apply plugin: 'com.android.application'
 }
@@ -12,7 +14,7 @@ def link = rootProject.ext.link
 android {
     compileSdkVersion androidInfo.compileSdkVersion
     buildToolsVersion androidInfo.buildToolsVersion
-    
+
     defaultConfig {
         if (!isModule){
             applicationId appId['app']
@@ -22,14 +24,14 @@ android {
         versionCode androidInfo.versionCode
         versionName androidInfo.versionName
         multiDexEnabled true
-        
+
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [moduleName : project.getName()]
             }
         }
     }
-    
+
     buildTypes {
         release {
             minifyEnabled false //false 关闭混淆
@@ -103,24 +105,13 @@ dependencies {
     api 'com.github.bumptech.glide:glide:4.7.1' //知乎开源图片选择框架 相关依赖
     api 'com.squareup.picasso:picasso:2.5.2' //知乎开源图片选择框架 相关依赖
     api 'com.github.yalantis:ucrop:2.2.3' //图片剪裁框架
-    
+
     api files('libs/Baidu_Mtj_3.9.0.0.jar')
     api files('libs/hellocharts-library-1.5.8.jar')
     api files('libs/ActiveAndroid-3.1.0-SNAPSHOT.jar')
 }
 
 if (isModule){
-    /** 以下开始是将Android Library上传到jcenter的相关配置**/
-    apply plugin: 'com.novoda.bintray-release'//添加
-    publish{
-        repoName = 'maven'//远程仓库名字,不指明，默认是上传到maven
-        userOrg = 'hzh153200037'//bintray.com的用户名
-        groupId = 'com.hzh.frame'//jcenter上的路径
-        artifactId = 'BaseUI'//项目名称
-        publishVersion = '3.1.5'//版本号
-        desc = '我的Android框架项目'//描述，不重要
-        website = 'https://XXX.XXX.XXX' // 网址，自由填写
-    }
     tasks.withType(Javadoc) {//防止编码问题
         options.addStringOption('Xdoclint:none', '-quiet')
         options.addStringOption('encoding', 'UTF-8')

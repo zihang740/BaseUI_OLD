@@ -117,7 +117,7 @@ public abstract class AbsListViewFM<T extends Model> extends BaseFM implements I
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            BaseHttp.getInstance().query(setHttpPath(), params, new CallBack(page, limit, isRefresh));
+            BaseHttp.getInstance().query(setHttpPort(), params, new CallBack(page, limit, isRefresh));
         }
     }
 
@@ -330,8 +330,8 @@ public abstract class AbsListViewFM<T extends Model> extends BaseFM implements I
     /**
      * 设置请求路径
      */
-    protected String setHttpPath() {
-        return "";
+    protected int setHttpPort() {
+        return 0;
     }
 
     /**

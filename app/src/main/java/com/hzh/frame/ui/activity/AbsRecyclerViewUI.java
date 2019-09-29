@@ -150,7 +150,7 @@ public abstract class AbsRecyclerViewUI<T extends Model> extends BaseUI implemen
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        BaseHttp.getInstance().query(setHttpPath(), params, new CallBack(page, limit));
+        BaseHttp.getInstance().query(setHttpPort(), params, new CallBack(page, limit));
     }
 
     public class CallBack extends HttpCallBack {
@@ -470,8 +470,8 @@ public abstract class AbsRecyclerViewUI<T extends Model> extends BaseUI implemen
     /**
      * 设置请求路径
      */
-    protected String setHttpPath() {
-        return "";
+    protected int setHttpPort() {
+        return 0;
     }
 
     /**

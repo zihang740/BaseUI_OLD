@@ -9,9 +9,9 @@ import com.activeandroid.annotation.Table;
  * */
 @Table(name = "BaseHttpCache")
 public class BaseHttpCache extends Model {
-    
-	@Column(name="port")//接口编号
-	private String port;
+
+    @Column(name="port")//接口编号
+    private int port;
 
     @Column(name="type")//类型 0:读请求 1:写请求
     private int type;
@@ -27,9 +27,9 @@ public class BaseHttpCache extends Model {
 
     @Column(name="lastTime")//最后一次更新时间
     private long lastTime;
-    
 
-    public BaseHttpCache setPort(String port) {
+
+    public BaseHttpCache setPort(int port) {
         this.port = port;
         return this;
     }

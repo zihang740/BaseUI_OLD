@@ -7,12 +7,12 @@ ext{
             buildToolsVersion:"28.0.3",
             targetSdkVersion : 28,
             minSdkVersion    : 14,
-            versionCode      : 311,
-            versionName      : "3.1.1"
+            versionCode      : 100,
+            versionName      : "1.0.0"
     ]
 
     appId = [
-            "app"  : "com.hzh.frame" 
+            "app"  : "com.hzh.frame"
     ]
 
     //相关依赖

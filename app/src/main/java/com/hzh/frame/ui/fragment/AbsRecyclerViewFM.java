@@ -148,7 +148,7 @@ public abstract class AbsRecyclerViewFM<T extends Model> extends BaseFM implemen
             e.printStackTrace();
         }
         
-        BaseHttp.getInstance().query(setHttpPath(), params, new CallBack(page,limit));
+        BaseHttp.getInstance().query(setHttpPort(), params, new CallBack(page,limit));
     }
     
     class CallBack extends HttpCallBack{
@@ -424,8 +424,10 @@ public abstract class AbsRecyclerViewFM<T extends Model> extends BaseFM implemen
     protected From setDeleteSqlParams(From from){return from;};
     /**
      * 设置请求路径
-     * */
-    protected String setHttpPath(){return "";}
+     */
+    protected int setHttpPort() {
+        return 0;
+    }
 	/**
 	 * 设置请求参数
 	 * */

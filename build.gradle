@@ -4,29 +4,25 @@ apply from: "config.gradle"
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url "https://maven.google.com"
-        }
         google()
+        maven { url "https://maven.google.com" }
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         //这里的gradle代表gradle插件版本
-        classpath 'com.android.tools.build:gradle:3.1.0'
-        //这里的com.novoda:bintray-release:0.8.1版本不兼容gradle-wrapper.properties的gradle-4.6版本,所以使用的是gradle-4.4版本
-        //4.4版本对应的gradle插件版本是com.android.tools.build:gradle:3.1.0,所以这里的gradle插件版本是3.1.0
-        classpath 'com.novoda:bintray-release:0.8.1'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         //ShareSDK
         classpath "com.mob.sdk:MobSDK:+"
+        //发布到jitpack.io远程maven仓库
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1' // Add this line
     }
 }
 
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url "https://maven.google.com"
-        }
         google()
+        maven { url "https://maven.google.com" }
         maven { url "https://jitpack.io" }
         //ActiveAndroid 需要的Maven地址,这里在Gradle中已经换成了jar方式使用,所以先注释掉
 //        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
