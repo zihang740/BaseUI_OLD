@@ -65,7 +65,7 @@ dependencies {
     //数据库框架 ActiveAndroid 这里先注释掉, 改为jar方式引用
 //    api 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     //二维码相关
-    api 'cn.yipianfengye.android:zxing-library:2.2'
+    api 'com.google.zxing:core:3.4.0'
     //gson
     api 'com.google.code.gson:gson:2.8.4'
     //retrofit2
