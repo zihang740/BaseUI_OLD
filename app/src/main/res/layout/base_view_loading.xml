@@ -20,7 +20,7 @@
             android:id="@+id/progress_wheel"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            wheel:matProg_barColor="@color/base_color"
+            wheel:matProg_barColor="@color/base_loading_color"
             wheel:matProg_progressIndeterminate="true" />
 
         <TextView

@@ -305,6 +305,7 @@
 
     <!-- =======================================加颜色在下面加 ======================================= -->
     <color name="base_color">#ff9c00</color>
+    <color name="base_loading_color">#ff9c00</color>
     <!-- 按钮主体色调 -->
     <color name="base_button_up">#ff9c00</color>
     <color name="base_button_down">#d88007</color>
