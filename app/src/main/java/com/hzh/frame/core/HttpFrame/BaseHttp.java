@@ -216,8 +216,6 @@ public class BaseHttp {
                 params=new JSONObject();
                 params.put("random", Math.random());
             }
-            params.put("language", BaseSP.getInstance().getString("language"));
-            params.put("token", BaseSP.getInstance().getString("token"));
             String encodeParams=URLEncoder.encode(params.toString(), "UTF-8");
             body.add("data", encodeParams);
             body.add("key", Util.createHttpKey(encodeParams));
