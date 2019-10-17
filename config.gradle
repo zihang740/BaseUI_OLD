@@ -7,8 +7,8 @@ ext{
             buildToolsVersion:"28.0.3",
             targetSdkVersion : 28,
             minSdkVersion    : 14,
-            versionCode      : 110,
-            versionName      : "1.1.0"
+            versionCode      : 111,
+            versionName      : "1.1.1"
     ]
 
     appId = [
