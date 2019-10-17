@@ -131,6 +131,9 @@ public class BaseHttp {
      * **/
     private void post(String url,FormBody body,HttpCallBack callback){
         Request request = new Request.Builder()
+                .header("user-agent", "android")
+                .addHeader("language", BaseSP.getInstance().getString("language"))
+                .addHeader("token", BaseSP.getInstance().getString("token"))
                 .post(body)
                 .url(url)
                 .build();
@@ -213,6 +216,7 @@ public class BaseHttp {
                 params=new JSONObject();
                 params.put("random", Math.random());
             }
+            params.put("language", BaseSP.getInstance().getString("language"));
             params.put("token", BaseSP.getInstance().getString("token"));
             String encodeParams=URLEncoder.encode(params.toString(), "UTF-8");
             body.add("data", encodeParams);
