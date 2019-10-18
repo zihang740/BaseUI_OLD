@@ -5,8 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
@@ -17,10 +17,12 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.hzh.frame.R;
-import com.hzh.frame.comn.Function.FunctionsManager;
 import com.hzh.frame.comn.annotation.InjectUtils;
+import com.hzh.frame.core.BaseSP;
+import com.hzh.frame.tools.LanguageTools;
 import com.hzh.frame.util.CloseAppUtil;
 import com.hzh.frame.util.StatusBarUtil;
+import com.hzh.frame.util.Util;
 import com.hzh.frame.widget.toast.BaseToast;
 import com.hzh.frame.widget.xrefresh.XSwipeRefreshLayout;
 import com.hzh.frame.widget.xtitleview.TitleView;
@@ -37,18 +39,23 @@ public abstract class BaseUI extends RxFragmentActivity implements OnRefreshList
     public TitleView titleView;//标题View
     public LinearLayout loadingView;//加载中页面
 
-//    public void setFunctionsForFM(String tag){
-//        FragmentManager fm=getSupportFragmentManager();
-//        BaseFM baseFM= (BaseFM) fm.findFragmentByTag(tag);
-//        FunctionsManager fmanager=FunctionsManager.getInstance();
-//        baseFM.setFunctionsManager(setFunctionsForAddFunction(fmanager));
-//    }
-    
-    public FunctionsManager setFunctionsForAddFunction(FunctionsManager fmanager){
-        return fmanager;
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            //8.0以上版本
+            super.attachBaseContext(newBase);
+        } else {
+            String language= BaseSP.getInstance().getString("language");
+            if(!Util.isEmpty(language)){
+                //8.0及以下版本
+                super.attachBaseContext(LanguageTools.setAppLanguage(newBase, language));
+            }else{
+                super.attachBaseContext(newBase);
+            }
+        }
     }
-    
-	/**
+
+    /**
 	 * onCreate之前初始化配置页面
 	 * */
 	protected void onCreateBefore(){

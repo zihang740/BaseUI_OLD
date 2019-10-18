@@ -12,7 +12,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.hzh.frame.R;
-import com.hzh.frame.comn.Function.FunctionsManager;
 import com.hzh.frame.widget.toast.BaseToast;
 import com.hzh.frame.widget.xrefresh.XSwipeRefreshLayout;
 import com.hzh.frame.widget.xtitleview.TitleView;
@@ -20,7 +19,6 @@ import com.trello.rxlifecycle2.components.support.RxFragment;
 
 public abstract class BaseFM extends RxFragment implements OnRefreshListener{
 
-    protected FunctionsManager mFunctionsManager;
     
     public LayoutInflater inflater;
     public FrameLayout rootView;//页面根布局
@@ -31,18 +29,6 @@ public abstract class BaseFM extends RxFragment implements OnRefreshListener{
     public TitleView titleView;//标题View
     public LinearLayout loadingView;//加载中页面
 
-    public void setFunctionsManager(FunctionsManager functionsManager) {
-        mFunctionsManager = functionsManager;
-    }
-
-//    @Override
-//    public void onAttach(Context context) {
-//        super.onAttach(context);
-//        if(context instanceof BaseUI){
-//            BaseUI baseUI=(BaseUI)context;
-//            baseUI.setFunctionsForFM(getTag());
-//        }
-//    }
 
     /**
 	 * onCreate之前初始化配置页面

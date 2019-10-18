@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -17,7 +18,10 @@ import android.widget.LinearLayout;
 
 import com.hzh.frame.R;
 import com.hzh.frame.comn.annotation.InjectUtils;
+import com.hzh.frame.core.BaseSP;
+import com.hzh.frame.tools.LanguageTools;
 import com.hzh.frame.util.CloseAppUtil;
+import com.hzh.frame.util.Util;
 import com.hzh.frame.widget.toast.BaseToast;
 import com.hzh.frame.widget.xrefresh.XSwipeRefreshLayout;
 import com.hzh.frame.widget.xtitleview.TitleView;
@@ -33,6 +37,22 @@ public abstract class BaseGroupUI extends ActivityGroup implements SwipeRefreshL
     public FrameLayout rootContent;//根主页面布局
     public TitleView titleView;//标题View
     public LinearLayout loadingView;//加载中页面
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            //8.0以上版本
+            super.attachBaseContext(newBase);
+        } else {
+            String language= BaseSP.getInstance().getString("language");
+            if(!Util.isEmpty(language)){
+                //8.0及以下版本
+                super.attachBaseContext(LanguageTools.setAppLanguage(newBase, language));
+            }else{
+                super.attachBaseContext(newBase);
+            }
+        }
+    }
     
     /**
      * onCreate之前初始化配置页面
