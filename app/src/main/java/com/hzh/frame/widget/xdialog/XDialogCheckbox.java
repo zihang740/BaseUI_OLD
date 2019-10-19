@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.hzh.frame.R;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +21,7 @@ public class XDialogCheckbox{
 	private List<HashMap<String, Object>> selectedItems;//选择的选项集合
 	private String[] itemNames;//名称
 	private boolean[] isSelected;//是否选中
+    Context mContext;
 	
 	/**
 	 * 复选框
@@ -28,6 +31,7 @@ public class XDialogCheckbox{
 	 * @param callback 复选框选择结果回调
 	 * */
 	public void show(Context context,String title,List<HashMap<String, Object>> list,final ICheckboxDialogCallBack callback) {
+	    mContext=context;
 		//防止网络延迟情况下多次点击弹出多个窗口
 		dismiss();
 		items=list;
@@ -49,7 +53,7 @@ public class XDialogCheckbox{
                     	items.get(index).put("isSelected", isChecked);
                     }   
                 })
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {   
+                .setPositiveButton(mContext.getString(R.string.base_confirm), new DialogInterface.OnClickListener() {   
                     @Override   
                     public void onClick(DialogInterface dialog, int which) {  
                     	selectedItems=new ArrayList<HashMap<String,Object>>();
@@ -61,7 +65,7 @@ public class XDialogCheckbox{
                     	callback.confirm(selectedItems);
                     }   
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {   
+                .setNegativeButton(mContext.getString(R.string.base_cancel), new DialogInterface.OnClickListener() {   
    
                     @Override   
                     public void onClick(DialogInterface dialog, int which) {   

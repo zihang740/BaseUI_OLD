@@ -55,7 +55,7 @@ public class XDialogUpdateAPP extends Dialog {
     public static final int INSTALL_PERMISS_CODE = 0xff01;
 
     private String fileSaveLocalPath=Environment.DIRECTORY_DOWNLOADS;//保存到本地的路径
-    private String fileName="Shop7.apk";//文件名称
+    private String fileName="Base.apk";//文件名称
     
 	private Activity activity;
 	private String appDownUrl;//APK下载地址

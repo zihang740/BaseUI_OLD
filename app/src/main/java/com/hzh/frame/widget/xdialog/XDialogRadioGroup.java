@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.hzh.frame.R;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,6 +19,7 @@ public class XDialogRadioGroup{
 	private List<HashMap<String, Object>> items;//所有单选项
 	private HashMap<String, Object> item=new HashMap<String, Object>();//当前选中项
 	private String[] itemNames;//名称
+    Context mContext;
 	
 	/**
 	 * 单选按钮
@@ -25,6 +28,7 @@ public class XDialogRadioGroup{
 	 * @param callback 单选按钮组选择结果回调
 	 * */
 	public void show(Context context,List<HashMap<String, Object>> list,final IRadioGroupDialogCallBack callback) {
+	    mContext=context;
 		//防止网络延迟情况下多次点击弹出多个窗口
 		dismiss();
 		items=list;
@@ -48,13 +52,13 @@ public class XDialogRadioGroup{
 			        	item=items.get(index);
 		            }
 		        })
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {   
+                .setPositiveButton(mContext.getString(R.string.base_confirm), new DialogInterface.OnClickListener() {   
                     @Override   
                     public void onClick(DialogInterface dialog, int which) {   
                     	callback.confirm(item);
                     }   
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {   
+                .setNegativeButton(mContext.getString(R.string.base_cancel), new DialogInterface.OnClickListener() {   
    
                     @Override   
                     public void onClick(DialogInterface dialog, int which) {   
