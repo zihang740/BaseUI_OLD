@@ -41,17 +41,12 @@ public abstract class BaseUI extends RxFragmentActivity implements OnRefreshList
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            //8.0以上版本
+        //兼容 8.0 以上版本多语言切换
+        String language= BaseSP.getInstance().getString("language");
+        if(!Util.isEmpty(language)){
+            super.attachBaseContext(LanguageTools.setAppLanguage(newBase, language));
+        }else{
             super.attachBaseContext(newBase);
-        } else {
-            String language= BaseSP.getInstance().getString("language");
-            if(!Util.isEmpty(language)){
-                //8.0及以下版本
-                super.attachBaseContext(LanguageTools.setAppLanguage(newBase, language));
-            }else{
-                super.attachBaseContext(newBase);
-            }
         }
     }
 

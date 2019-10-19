@@ -40,17 +40,12 @@ public abstract class BaseGroupUI extends ActivityGroup implements SwipeRefreshL
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            //8.0以上版本
+        //兼容 8.0 以上版本多语言切换
+        String language= BaseSP.getInstance().getString("language");
+        if(!Util.isEmpty(language)){
+            super.attachBaseContext(LanguageTools.setAppLanguage(newBase, language));
+        }else{
             super.attachBaseContext(newBase);
-        } else {
-            //8.0及以下版本
-            String language= BaseSP.getInstance().getString("language");
-            if(!Util.isEmpty(language)){
-                super.attachBaseContext(LanguageTools.setAppLanguage(newBase, language));
-            }else{
-                super.attachBaseContext(newBase);
-            }
         }
     }
     
