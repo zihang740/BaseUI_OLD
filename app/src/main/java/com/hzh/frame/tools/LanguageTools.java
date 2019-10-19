@@ -20,7 +20,7 @@ import java.util.Locale;
 public class LanguageTools {
     private static final String TAG = "LocalManageUtil";
 
-
+//在这里添加你需要的所有支持的切换语言
 //    public static List<HashMap<String, Object>> getSelectLanguage(Context context) {
 //        String language = BaseSP.getInstance().getString("language");
 //        List<HashMap<String, Object>> list = new ArrayList<>();

@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:text="订单空空如也"
+        android:text="@string/base_no_content"
         android:textColor="@color/base_131313"
         android:textSize="@dimen/sp_13"
         android:textStyle="bold"/>
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:text="来挑几件好货吧"
+        android:text="@string/base_choose"
         android:textColor="@color/base_666666"
         android:textSize="@dimen/sp_9"/>
 
@@ -37,7 +37,7 @@
         android:paddingLeft="@dimen/dp_10"
         android:paddingRight="@dimen/dp_10"
         android:paddingTop="@dimen/dp_3"
-        android:text="随便逛逛"
+        android:text="@string/base_window_shopping"
         android:textColor="@color/base_131313"
         android:textSize="@dimen/sp_10"/>
 </LinearLayout>

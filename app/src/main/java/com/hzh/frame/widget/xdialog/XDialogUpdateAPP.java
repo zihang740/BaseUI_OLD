@@ -27,6 +27,7 @@ import com.hzh.frame.core.BaseSP;
 import com.hzh.frame.service.UpdateService;
 import com.hzh.frame.util.AndroidUtil;
 import com.hzh.frame.util.FileUtil;
+import com.hzh.frame.widget.toast.BaseToast;
 import com.hzh.frame.widget.xProgressButton.ProgressButton;
 
 import java.io.File;
@@ -241,7 +242,7 @@ public class XDialogUpdateAPP extends Dialog {
             }
             activity.startActivity(intent);
         }else {
-            Toast.makeText(activity, "未找到下载的AP文件,请手动安装", Toast.LENGTH_SHORT).show();
+            BaseToast.getInstance().setMsg(activity.getString(R.string.base_no_download_apk)).show();
         }
     }
 	

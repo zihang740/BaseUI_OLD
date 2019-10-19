@@ -24,7 +24,7 @@
             android:layout_below="@id/progressBar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10.0dip"
-            android:text="玩命加载中..."
+            android:text="@string/base_no_life_loading."
             android:textColor="#ff828282"/>
     </RelativeLayout>
 

@@ -30,7 +30,7 @@
             android:gravity="center"
             android:maxWidth="160dp"
             android:maxLines="1"
-            android:text="标题"
+            android:text="@string/base_title"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:clickable="false"
                 android:gravity="center"
-                android:text="消息"
+                android:text="@string/base_message"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 android:visibility="gone" />

@@ -14,6 +14,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.content.FileProvider;
 
 import com.hzh.frame.BaseInitData;
+import com.hzh.frame.R;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -195,7 +196,7 @@ public class FileUtil {
                 e.printStackTrace();
             }
         } else {
-            System.out.println("文件不存在！");
+            System.out.println(BaseInitData.applicationContext.getString(R.string.base_no_file));
         }
         return null;
     }

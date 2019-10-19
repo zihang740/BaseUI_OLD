@@ -151,7 +151,7 @@ public class BaseHttp {
         if(model!=null){
             //当前port接口有请求记录
             if(model.getState()==2){//拦截
-                BaseToast.getInstance().setView(R.layout.base_view_toast_yllow).setMsg(R.id.content,"别点了,请求正在途中...").show();
+                BaseToast.getInstance().setView(R.layout.base_view_toast_yllow).setMsg(R.id.content,activity.getString(R.string.base_in_request)).show();
                 return;
             }else{//正常发送
                 model.setState(2).save();

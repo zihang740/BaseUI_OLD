@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_120"
-        android:text="升级到新版本"
+        android:text="@string/base_update_to"
         android:textColor="@color/black"
         android:textSize="25sp"/>
 
@@ -31,7 +31,7 @@
         android:layout_margin="@dimen/dp_10"
         android:paddingLeft="@dimen/dp_5"
         android:paddingRight="@dimen/dp_5"
-        android:text="内容"
+        android:text="@string/base_content"
         android:textColor="@color/black"
         android:textSize="15sp"/>
 
@@ -43,7 +43,7 @@
         android:layout_marginBottom="@dimen/dp_20"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
-        android:text="立即升级"
+        android:text="@string/base_go_update"
         android:textColor="@color/white"
         app:buttonColor="@color/base_button_up"
         app:cornerRadius="@dimen/dp_21"

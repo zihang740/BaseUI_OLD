@@ -22,7 +22,7 @@
             android:id="@+id/xlistview_footer_hint_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="查看更多"
+            android:text="@string/base_select_more"
             android:textColor="@color/base_color"/>
     </LinearLayout>
 

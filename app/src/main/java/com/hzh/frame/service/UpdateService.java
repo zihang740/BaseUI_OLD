@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.hzh.frame.R;
 import com.hzh.frame.core.BaseSP;
 import com.hzh.frame.util.FileUtil;
+import com.hzh.frame.widget.toast.BaseToast;
 
 import java.io.File;
 
@@ -139,7 +140,8 @@ public class UpdateService extends Service {
                 }
                 context.startActivity(intent);
             }else {
-                Toast.makeText(context, "未找到下载的AP文件,请手动安装", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "未找到下载的APP文件,请手动安装", Toast.LENGTH_SHORT).show();
+                BaseToast.getInstance().setMsg(getApplication().getString(R.string.base_no_download_apk)).show();
             }
         }
     }
