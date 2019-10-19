@@ -94,4 +94,5 @@ public class LanguageTools {
         DisplayMetrics displayMetrics = resources.getDisplayMetrics();
         resources.updateConfiguration(configuration, displayMetrics);
     }
+
 }

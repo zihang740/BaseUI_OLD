@@ -60,6 +60,9 @@
     <!-- APP 百度定位必须要这个,不然有些手机获取不到位置,不能动态提示用户获取 -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
+    <!-- android9.0 切换语言 -->
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+
     <application>
         <activity android:name=".ui.WelcomeUI"/>
         <activity android:name=".widget.xwebview.XWebViewActivity"/>

@@ -41,7 +41,7 @@ public abstract class BaseUI extends RxFragmentActivity implements OnRefreshList
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             //8.0以上版本
             super.attachBaseContext(newBase);
         } else {
